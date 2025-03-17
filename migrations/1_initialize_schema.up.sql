@@ -1,0 +1,6 @@
+PRAGMA foreign_keys = ON;
+CREATE TABLE IF NOT EXISTS Items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    uri TEXT NOT NULL UNIQUE
+);
+CREATE INDEX idx_items ON Items (id);

@@ -1,0 +1,45 @@
+{{ block "index" . }}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ .Title }}</title>
+        <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+        <meta name="htmx-config" content='{"responseHandling": [{"code":".*", "swap": true}]}' />
+    </head>
+<body class="h-full">
+    <header>
+        <h1 class="flex p-10 h-20 text-xl items-center text-green-500 uppercase drop-shadow-md font-semibold">{{ .Title }}</h1>
+    </header>
+    <div class="flex h-[calc(100%-80px)]">
+        <div class="flex w-sm gap-y-4 flex-col">
+            <form class="flex flex-col m-10 p-5 gap-y-4 bg-gray-100 rounded-lg outline-black outline-2" 
+                hx-post="/content" 
+                hx-target="#notification"
+                hx-on::after-request="this.reset()">
+                
+                <label for="url">Content URL</label>
+                <input class="outline rounded-xs" autocomplete="off" type="url"name="url" placeholder="https://example.com/"/>
+                <button class="shadow-sm p-4 uppercase hover rounded-lg bg-green-400 hover:bg-green-500 font-bold" type="submit">
+                    add
+                </button>
+            </form>
+            <section id="notification" class="p-4 self-center">
+                {{ with .AddContentError }} {{ template "add-notification" }} {{ end }}
+            </section>
+            
+        </div>
+        <div class="flex grow justify-around">
+            <div id="frame">
+                {{ template "frame" . }}
+            </div>
+            <button class="bg-green-400 hover:bg-green-500 font-bold uppercase h-20 self-center rounded-lg p-4" type="submit"
+            hx-get="/next"
+            hx-target="#frame">
+                next
+            </button>
+        </div>
+    </div>
+</body>
+</html>
+ {{ end }}

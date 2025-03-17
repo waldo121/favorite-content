@@ -1,0 +1,2 @@
+DATABASE_CONNECTION_STRING="./db.sqlite"
+MIGRATION_FILES="file://migrations"

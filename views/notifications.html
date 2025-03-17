@@ -1,0 +1,8 @@
+{{ block "add-notification" . }}
+{{ $hasError := .AddContentError }}
+    {{ if $hasError }}
+    <p class="bg-red-200 rounded-lg p-4 justify-center self-center">An error occured while adding the content</p>
+    {{ else }}
+    <p class="bg-green-200 rounded-lg p-4 justify-center self-center">The content was added successfully</p>
+    {{ end }}
+{{ end }}
