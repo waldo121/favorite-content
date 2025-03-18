@@ -6,7 +6,7 @@ Keeping track & rewatching of my favorite brainrot content from various platform
 
 ## Stack
 
-- Golang
+- golang
 - sqlite
 - htmx
 - tailwind
@@ -14,13 +14,16 @@ Keeping track & rewatching of my favorite brainrot content from various platform
 ## API Integration
 
 - youtube shorts
-    Only "https://www.youtube.com/shorts/<id>" url are supported
-- Others TBD
-
+    - "https://www.youtube.com/shorts/<id>" url are supported
+- facebook reels
+    - TBD
+- tiktok
+    - TBD
 
 ## Running in dev
+
 ```shell
 go run scripts/database.go 
-~/go/bin/air
+air
 ```
-
+Go to [localhost:8080]: http://localhost:8080
