@@ -1,8 +1,9 @@
-{{ block "frame" . }}
-{{ if .Player }}
-    <iframe key="{{ .Player.Id }}" class="flex justify-center items-center h-full w-md rounded-lg shadow-lg" src="{{ .Player.EmbedUrl | safeEmbedURL }}"></iframe>
+{{ define "frame" }}
+{{ if .EmbedCode }}
+    {{ .EmbedCode }}
 {{ else }}
-    <text class="flex justify-center items-center h-full w-md rounded-lg shadow-lg">No content is tracked.<br/>Add content first.</text>
-    
-    {{ end }}
+    <div>
+        <p>No content<br>Start by adding content</p>
+    </div>
+{{ end }}
 {{ end }}

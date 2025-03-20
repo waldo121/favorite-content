@@ -10,31 +10,39 @@ import (
 
 var AllowedDomains = []string{
 	"www.youtube.com",
+	"www.facebook.com",
 }
 
 func AddContent(source url.URL) error {
-	var embedUrl string
 	switch source.Host {
 	case AllowedDomains[0]:
 		videoId, found := strings.CutPrefix(source.String(), "https://www.youtube.com/shorts/")
 		if !found {
 			return errors.New("only youtube shorts urls are supported")
 		}
-		embedUrl = "https://www.youtube.com/embed/" + videoId
+		_, err := database.InsertContent(
+			videoId,
+			YoutubeShorts.String(),
+		)
+		return err
 	default:
 		return errors.New("this domain is not allowed")
 	}
-	_, err := database.InsertContent(embedUrl)
-	return err
+
 }
 func GetRandomContent() (*ContentSource, error) {
-	id, uri, err := database.SelectRandomContent()
+	var contentPlatform Platform
+	id, videoId, platformStr, err := database.SelectRandomContent()
 	if err != nil {
 		return nil, err
 	}
-	parsedUrl, _ := url.Parse(uri)
+	err = GetPlatform(platformStr, &contentPlatform)
+	if err != nil {
+		return nil, err
+	}
 	return &ContentSource{
 		Id:       id,
-		EmbedUrl: *parsedUrl,
+		videoId:  videoId,
+		Platform: contentPlatform,
 	}, nil
 }

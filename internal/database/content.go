@@ -1,26 +1,27 @@
 package database
 
-func InsertContent(url string) (int64, error) {
+func InsertContent(videoId string, platform string) (int64, error) {
 	db := GetConnection()
 	defer db.Close()
 	var id int64
-	insertStatement := `INSERT INTO Items (uri) values ($1) RETURNING id;`
-	err := db.QueryRow(insertStatement, url).Scan(&id)
+	insertStatement := `INSERT INTO Items (video_id, platform) values ($1, $2) RETURNING id;`
+	err := db.QueryRow(insertStatement, videoId, platform).Scan(&id)
 	if err != nil {
 		return 0, err
 	}
 	return id, nil
 }
 
-func SelectRandomContent() (uint64, string, error) {
+func SelectRandomContent() (uint64, string, string, error) {
 	db := GetConnection()
 	defer db.Close()
-	var uri string
+	var videoId string
 	var id uint64
-	selectStatement := `SELECT id, uri FROM Items ORDER BY RANDOM() LIMIT 1;`
-	err := db.QueryRow(selectStatement).Scan(&id, &uri)
+	var platform string
+	selectStatement := `SELECT id, video_id, platform FROM Items ORDER BY RANDOM() LIMIT 1;`
+	err := db.QueryRow(selectStatement).Scan(&id, &videoId, &platform)
 	if err != nil {
-		return 0, "", err
+		return 0, "", "", err
 	}
-	return id, uri, nil
+	return id, videoId, platform, nil
 }

@@ -26,7 +26,18 @@ func main() {
 		content, err := service.GetRandomContent()
 		if err != nil {
 			c.HTML(
-				http.StatusOK,
+				http.StatusInternalServerError,
+				"index",
+				gin.H{
+					"Title": "My Favorite Content",
+				},
+			)
+			return
+		}
+		embedCode, err := content.Embed()
+		if err != nil {
+			c.HTML(
+				http.StatusInternalServerError,
 				"index",
 				gin.H{
 					"Title": "My Favorite Content",
@@ -38,11 +49,8 @@ func main() {
 			http.StatusOK,
 			"index",
 			gin.H{
-				"Title": "My Favorite Content",
-				"Player": service.ContentSource{
-					EmbedUrl: content.EmbedUrl,
-					Id:       1,
-				},
+				"Title":     "My Favorite Content",
+				"EmbedCode": template.HTML(embedCode),
 			},
 		)
 
@@ -57,11 +65,22 @@ func main() {
 			)
 			return
 		}
+		embedCode, err := newContent.Embed()
+		if err != nil {
+			c.HTML(
+				http.StatusInternalServerError,
+				"index",
+				gin.H{
+					"Title": "My Favorite Content",
+				},
+			)
+			return
+		}
 		c.HTML(
 			http.StatusOK,
 			"frame",
 			gin.H{
-				"Player": newContent,
+				"EmbedCode": template.HTML(embedCode),
 			},
 		)
 	})
