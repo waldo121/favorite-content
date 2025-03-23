@@ -16,9 +16,7 @@ Keeping track & rewatching of my favorite brainrot content from various platform
 - youtube shorts
     - "https://www.youtube.com/shorts/<id>" url are supported
 - facebook reels
-    - TBD
-- tiktok
-    - TBD
+    - "https://www.facebook.com/reel/<id>" url are supported
 
 ## Running in dev
 

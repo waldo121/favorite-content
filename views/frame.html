@@ -1,9 +1,9 @@
 {{ define "frame" }}
-{{ if .EmbedCode }}
+{{ if len .EmbedCode | ne 0 }}
     {{ .EmbedCode }}
 {{ else }}
-    <div>
-        <p>No content<br>Start by adding content</p>
+    <div class="bg-red-600 p-5 rounded-sm shadow-sm">
+        <p class="font-semibold">The content could not be loaded<br>Try adding new content and/or keep scrolling</p>
     </div>
 {{ end }}
 {{ end }}

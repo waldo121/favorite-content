@@ -23,28 +23,9 @@ func main() {
 	router.LoadHTMLGlob("views/*")
 	router.Static("/assets", "./assets")
 	router.GET("/", func(c *gin.Context) {
-		content, err := service.GetRandomContent()
-		if err != nil {
-			c.HTML(
-				http.StatusInternalServerError,
-				"index",
-				gin.H{
-					"Title": "My Favorite Content",
-				},
-			)
-			return
-		}
-		embedCode, err := content.Embed()
-		if err != nil {
-			c.HTML(
-				http.StatusInternalServerError,
-				"index",
-				gin.H{
-					"Title": "My Favorite Content",
-				},
-			)
-			return
-		}
+		content := service.GetRandomContent()
+		embedCode := content.Embed()
+
 		c.HTML(
 			http.StatusOK,
 			"index",
@@ -56,26 +37,9 @@ func main() {
 
 	})
 	router.GET("/next", func(c *gin.Context) {
-		newContent, err := service.GetRandomContent()
-		if err != nil {
-			c.HTML(
-				http.StatusInternalServerError,
-				"frame",
-				nil,
-			)
-			return
-		}
-		embedCode, err := newContent.Embed()
-		if err != nil {
-			c.HTML(
-				http.StatusInternalServerError,
-				"index",
-				gin.H{
-					"Title": "My Favorite Content",
-				},
-			)
-			return
-		}
+		newContent := service.GetRandomContent()
+		embedCode := newContent.Embed()
+
 		c.HTML(
 			http.StatusOK,
 			"frame",
@@ -83,6 +47,7 @@ func main() {
 				"EmbedCode": template.HTML(embedCode),
 			},
 		)
+
 	})
 	router.POST("/content", func(c *gin.Context) {
 		urlForm := c.PostForm("url")
